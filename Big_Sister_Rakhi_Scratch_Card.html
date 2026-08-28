@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raksha Bandhan Surprise</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap');
+
+:root{
+  --maroon:#681126;
+  --gold:#c99632;
+  --cream:#fff8e9;
+  --text:#3f1b22;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; font-family:Poppins,Arial,sans-serif; color:var(--text);
+  background:radial-gradient(circle at 15% 15%,rgba(201,150,50,.13),transparent 24rem),#f8edcf;
+}
+.page{min-height:100vh;display:grid;place-items:center;padding:28px 16px}
+.card{
+  width:min(620px,100%);background:rgba(255,248,233,.97);border:1px solid var(--gold);
+  border-radius:18px;box-shadow:0 24px 70px rgba(63,8,22,.18);overflow:hidden;text-align:center;
+}
+.top{height:8px;background:linear-gradient(90deg,var(--maroon),var(--gold),var(--maroon))}
+.content{padding:44px 30px 36px}
+.icons{font-size:27px;letter-spacing:9px;margin-bottom:18px}
+.label{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:600;color:#93661d;margin-bottom:10px}
+h1,h2{font-family:Cinzel,Georgia,serif;color:var(--maroon);margin:0}
+h1{font-size:clamp(30px,7vw,48px);line-height:1.2}
+p{font-size:15px;line-height:1.7;margin:12px 0}
+.divider{margin:20px;color:var(--gold);font-size:18px}
+.scratch-wrap{
+  width:min(440px,100%);height:240px;margin:28px auto 12px;position:relative;
+  border-radius:14px;overflow:hidden;border:2px solid var(--gold);box-shadow:0 12px 30px rgba(63,8,22,.14);
+}
+.reveal{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:25px;background:linear-gradient(145deg,#5c0d20,#7d1730);color:#fff5df;
+}
+.reveal h2{color:#f3d783;font-size:25px}
+.gift{font-size:68px;margin:6px 0}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.hint{font-size:13px;color:#8a6652;margin-top:14px}
+.hidden{display:none!important}
+.gift-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:min(440px,100%);padding:15px 22px;margin-top:18px;border-radius:10px;
+  background:var(--maroon);color:#fff9eb;text-decoration:none;font-weight:600;
+  box-shadow:0 8px 18px rgba(104,17,38,.18);transition:.2s;
+}
+.gift-btn:hover{transform:translateY(-2px);background:#470914}
+.footer{margin-top:28px;padding-top:18px;border-top:1px solid rgba(201,150,50,.35);font-size:12px;color:#956b52}
+@media(max-width:500px){.content{padding:38px 18px 28px}.scratch-wrap{height:220px}}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="card">
+    <div class="top"></div>
+    <div class="content">
+      <div class="icons">🪔 ✨ 🪔</div>
+      <div class="label">Raksha Bandhan</div>
+      <h1>Happy Raksha Bandhan</h1>
+      <div class="divider">✦</div>
+      <p>A small surprise for you 🤗</p>
+
+      <div class="scratch-wrap" id="scratchWrap">
+        <div class="reveal">
+          <div class="gift">🎁</div>
+          <h2>Surprise!</h2>
+          <p>Your Rakhi gift is ready ✨</p>
+        </div>
+        <canvas id="scratchCanvas"></canvas>
+      </div>
+
+      <p class="hint" id="hint">Scratch the card to reveal your surprise ✨</p>
+
+      <!-- Replace # with your gift link -->
+      <a id="giftButton" class="gift-btn hidden" href="#" target="_blank" rel="noopener"
+         onclick="if(this.getAttribute('href')==='#'){alert('Add your gift link first.');return false;}">
+        🎁 Open Your Surprise
+      </a>
+
+      <div class="footer">🪔 Happy Raksha Bandhan 🪔</div>
+    </div>
+  </section>
+</main>
+
+<script>
+const canvas=document.getElementById('scratchCanvas');
+const ctx=canvas.getContext('2d');
+const wrap=document.getElementById('scratchWrap');
+const hint=document.getElementById('hint');
+const button=document.getElementById('giftButton');
+
+function setup(){
+  const r=wrap.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=r.width*dpr; canvas.height=r.height*dpr;
+  canvas.style.width=r.width+'px'; canvas.style.height=r.height+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle='#c99632';
+  ctx.fillRect(0,0,r.width,r.height);
+  ctx.fillStyle='#681126';
+  ctx.font='600 18px Poppins';
+  ctx.textAlign='center';
+  ctx.fillText('SCRATCH HERE',r.width/2,r.height/2-6);
+  ctx.font='30px sans-serif';
+  ctx.fillText('✨',r.width/2,r.height/2+40);
+  ctx.globalCompositeOperation='destination-out';
+}
+setup();
+
+let drawing=false, revealed=false;
+function pos(e){
+  const r=canvas.getBoundingClientRect();
+  const p=e.touches?e.touches[0]:e;
+  return {x:p.clientX-r.left,y:p.clientY-r.top};
+}
+function scratch(e){
+  if(revealed)return;
+  const p=pos(e);
+  ctx.beginPath();ctx.arc(p.x,p.y,24,0,Math.PI*2);ctx.fill();
+  checkReveal();
+}
+canvas.addEventListener('pointerdown',e=>{drawing=true;scratch(e)});
+canvas.addEventListener('pointermove',e=>{if(drawing)scratch(e)});
+window.addEventListener('pointerup',()=>drawing=false);
+
+function checkReveal(){
+  const w=canvas.width,h=canvas.height;
+  const data=ctx.getImageData(0,0,w,h).data;
+  let clear=0;
+  for(let i=3;i<data.length;i+=80)if(data[i]===0)clear++;
+  const total=Math.ceil((data.length-3)/80);
+  if(clear/total>.48){
+    revealed=true;
+    canvas.style.transition='opacity .45s ease';
+    canvas.style.opacity='0';
+    setTimeout(()=>{canvas.classList.add('hidden');button.classList.remove('hidden')},450);
+    hint.textContent='Your surprise is ready ✨';
+  }
+}
+window.addEventListener('resize',()=>{if(!revealed)setup()});
+</script>
+</body>
+</html>
