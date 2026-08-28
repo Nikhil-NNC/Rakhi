@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Rakhi Surprise for Lucky</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root{
+  --maroon:#681126;
+  --maroon-dark:#3f0816;
+  --gold:#c99632;
+  --gold-light:#f2d88e;
+  --cream:#fff8e9;
+  --cream-dark:#f4e4bf;
+  --red:#a51e38;
+  --text:#3f1b22;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Poppins,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 15%,rgba(201,150,50,.13),transparent 24rem),
+    radial-gradient(circle at 85% 85%,rgba(104,17,38,.09),transparent 25rem),
+    #f8edcf;
+}
+
+.hidden{display:none!important}
+
+.page{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:32px 18px;
+}
+
+.card{
+  width:min(620px,100%);
+  background:rgba(255,248,233,.96);
+  border:1px solid var(--gold);
+  border-radius:18px;
+  box-shadow:0 24px 70px rgba(63,8,22,.18);
+  overflow:hidden;
+}
+
+.top-border{
+  height:8px;
+  background:linear-gradient(90deg,var(--maroon),var(--gold),var(--maroon));
+}
+
+.content{
+  padding:48px 42px 42px;
+  text-align:center;
+}
+
+.festive-icons{
+  font-size:27px;
+  letter-spacing:12px;
+  margin-bottom:20px;
+}
+
+.label{
+  color:#93661d;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+h1,h2{
+  font-family:"Cinzel",Georgia,serif;
+  color:var(--maroon);
+  margin:0;
+}
+
+h1{
+  font-size:clamp(36px,8vw,54px);
+  line-height:1.15;
+}
+
+h2{
+  font-size:clamp(32px,7vw,46px);
+  line-height:1.2;
+}
+
+.lucky-name{
+  font-family:"DM Serif Display",Georgia,serif;
+  font-style:italic;
+  font-size:clamp(46px,10vw,76px);
+  line-height:1;
+  color:var(--red);
+  margin:16px 0 8px;
+  letter-spacing:.02em;
+  text-shadow:0 3px 12px rgba(165,30,56,.12);
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:22px auto;
+  color:var(--gold);
+}
+
+.divider:before,.divider:after{
+  content:"";
+  height:1px;
+  width:70px;
+  background:linear-gradient(90deg,transparent,var(--gold));
+}
+
+.divider:after{
+  transform:scaleX(-1);
+}
+
+.divider span{font-size:18px}
+
+p{
+  margin:0;
+  line-height:1.75;
+  font-size:15px;
+}
+
+.subtle{
+  margin-top:14px;
+  font-size:13px;
+  color:#876651;
+}
+
+.input-wrap{
+  max-width:420px;
+  margin:28px auto 0;
+}
+
+input{
+  width:100%;
+  padding:15px 18px;
+  border:1px solid #d7b86c;
+  border-radius:10px;
+  background:#fffdf7;
+  font:500 15px Poppins,Arial,sans-serif;
+  text-align:center;
+  outline:none;
+  transition:.2s;
+}
+
+input:focus{
+  border-color:var(--maroon);
+  box-shadow:0 0 0 4px rgba(104,17,38,.08);
+}
+
+.primary-btn,.gift-btn{
+  width:100%;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  margin-top:14px;
+  padding:15px 20px;
+  border:0;
+  border-radius:10px;
+  background:var(--maroon);
+  color:#fffaf0;
+  font:600 14px Poppins,Arial,sans-serif;
+  cursor:pointer;
+  text-decoration:none;
+  transition:.2s ease;
+  box-shadow:0 8px 18px rgba(104,17,38,.18);
+}
+
+.primary-btn:hover,.gift-btn:hover{
+  transform:translateY(-2px);
+  background:var(--maroon-dark);
+}
+
+.primary-btn:active,.gift-btn:active{transform:translateY(0)}
+
+.error{
+  min-height:20px;
+  margin-top:12px;
+  color:#b1243d;
+  font-size:13px;
+  font-weight:500;
+}
+
+.footer{
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid rgba(201,150,50,.35);
+  color:#956b52;
+  font-size:12px;
+}
+
+/* Checking page */
+.checking-card{
+  background:linear-gradient(145deg,#520b1c,#7c1730);
+  color:#fff4dc;
+  border-color:var(--gold-light);
+}
+
+.checking-card h2{color:var(--gold-light)}
+.checking-card p{color:#f7e8cc}
+
+.rakhi{
+  font-size:54px;
+  margin-bottom:22px;
+  animation:float 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes float{to{transform:translateY(-8px)}}
+
+/* Surprise page */
+.gift-intro{
+  margin-top:8px;
+  font-size:16px;
+}
+
+.gift-box{
+  font-size:96px;
+  margin:24px 0 8px;
+  animation:bounce 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes bounce{
+  to{transform:translateY(-8px) scale(1.03)}
+}
+
+.gift-panel{
+  max-width:450px;
+  margin:10px auto 0;
+  padding:25px 22px;
+  border-radius:14px;
+  background:linear-gradient(145deg,#5a0c1e,#7d1730);
+  border:1px solid var(--gold-light);
+  color:#fff6df;
+}
+
+.gift-panel h2{
+  color:var(--gold-light);
+  font-size:27px;
+}
+
+.gift-panel p{
+  margin-top:8px;
+  font-size:14px;
+}
+
+.gift-btn{
+  margin-top:20px;
+  background:linear-gradient(135deg,#e5c467,#b77d18);
+  color:#4a171e;
+  box-shadow:none;
+}
+
+.gift-btn:hover{background:linear-gradient(135deg,#efd27b,#c98e24)}
+
+.gift-note{
+  margin-top:13px;
+  font-size:11px!important;
+  opacity:.75;
+}
+
+/* Confetti */
+.confetti{
+  position:fixed;
+  top:-30px;
+  z-index:99;
+  pointer-events:none;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translate(var(--x),110vh) rotate(540deg);
+    opacity:.9;
+  }
+}
+
+@media(max-width:520px){
+  .page{padding:22px 14px}
+  .content{padding:40px 22px 30px}
+  .festive-icons{font-size:23px;letter-spacing:8px}
+  p{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<section class="page" id="lockPage">
+  <div class="card">
+    <div class="top-border"></div>
+    <div class="content">
+      <div class="festive-icons">🪔 🤗 🪔</div>
+      <div class="label">Raksha Bandhan Special</div>
+      <h1>A small surprise<br>for you</h1>
+
+      <div class="divider"><span>✦</span></div>
+
+      <p>Enter the password to unlock it.</p>
+
+      <div class="input-wrap">
+        <input id="password" type="password" placeholder="Enter secret password" autocomplete="off">
+        <button class="primary-btn" onclick="unlock()">
+          <span>✨</span> Unlock Surprise
+        </button>
+        <div class="error" id="error"></div>
+      </div>
+
+      <p class="subtle">Hint: What I usually call you 🤗</p>
+
+      <div class="footer">🪔 Happy Raksha Bandhan 🪔</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKING SCREEN -->
+<section class="page hidden" id="checking">
+  <div class="card checking-card">
+    <div class="top-border"></div>
+    <div class="content">
+      <div class="rakhi">🧿</div>
+      <div class="label" style="color:#f2d88e">Almost there</div>
+      <h2>Checking...</h2>
+      <div class="divider"><span>✦</span></div>
+      <p>Just making sure it’s really you 🤗</p>
+    </div>
+  </div>
+</section>
+
+<!-- SURPRISE SCREEN -->
+<section class="page hidden" id="surprise">
+  <div class="card">
+    <div class="top-border"></div>
+    <div class="content">
+      <div class="festive-icons">🤗 🪔 🤗</div>
+      <div class="label">Surprise Unlocked ✨</div>
+      <h1>Happy Raksha Bandhan</h1>
+
+      <div class="divider"><span>✦</span></div>
+
+      <div class="lucky-name">Lucky ✨</div>
+      <p class="subtle">Here’s your Rakhi surprise 🎁</p>
+
+      <div class="gift-box">🎁</div>
+
+      <div class="gift-panel">
+        <h2>Your Gift is Ready</h2>
+        <p>₹1000 Amazon Gift Card</p>
+
+        <!--
+        REPLACE ONLY THE # BELOW WITH YOUR AMAZON GIFT CARD LINK.
+        Example:
+        href="https://your-amazon-gift-link"
+        -->
+        <a class="gift-btn" href="#" target="_blank" rel="noopener"
+          onclick="if(this.getAttribute('href')==='#'){alert('Add your Amazon Gift Card link here first.');return false;}">
+          <span>🎁</span> Open Your Gift
+        </a>
+
+        <p class="gift-note">Your Rakhi surprise is waiting ✨</p>
+      </div>
+
+      <div class="footer">🪔 Happy Raksha Bandhan 🪔</div>
+    </div>
+  </div>
+</section>
+
+<script>
+const correctPassword = "lucky";
+
+function unlock(){
+  const value = document.getElementById("password").value.trim().toLowerCase();
+  const error = document.getElementById("error");
+
+  if(value === correctPassword){
+    document.getElementById("lockPage").classList.add("hidden");
+    document.getElementById("checking").classList.remove("hidden");
+
+    setTimeout(() => {
+      document.getElementById("checking").classList.add("hidden");
+      document.getElementById("surprise").classList.remove("hidden");
+      celebrate();
+    }, 1400);
+  } else {
+    error.textContent = "Wrong password. Try again 🤗";
+  }
+}
+
+document.getElementById("password").addEventListener("keydown", function(e){
+  if(e.key === "Enter") unlock();
+});
+
+function celebrate(){
+  const symbols = ["✨","🎉","🎊","🪔"];
+  for(let i = 0; i < 55; i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.setProperty("--x", (Math.random() * 220 - 110) + "px");
+    c.style.animationDuration = (2.8 + Math.random() * 2.5) + "s";
+    c.style.fontSize = (12 + Math.random() * 14) + "px";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>
